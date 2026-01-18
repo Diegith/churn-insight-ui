@@ -50,9 +50,8 @@ const Layout = ({ children }) => {
         <div className="p-4 border-t border-slate-800 bg-slate-900/50">
           <div className="mb-4 px-3">
             <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Sesión activa</p>
-            <p className="text-sm font-medium text-slate-300 truncate">{user?.username || 'Analista'}</p>
             <span className="text-[9px] bg-slate-800 text-blue-400 px-2 py-0.5 rounded-full border border-blue-900/30 capitalize">
-               {user?.role?.replace('ROLE_', '').toLowerCase() || 'invitado'}
+               {user?.rol?.replace('ROLE_', '').toLowerCase() || 'invitado'}
             </span>
           </div>
           <button 

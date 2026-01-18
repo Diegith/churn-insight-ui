@@ -9,7 +9,7 @@ const ProtectedRoute = ({ allowedRoles }) => {
   }
 
   // Si pasaste roles permitidos, verificamos el rol del usuario
-  if (allowedRoles && !allowedRoles.includes(user.role)) {
+  if (allowedRoles && !allowedRoles.includes(user.rol)) {
     return <Navigate to="/" replace />;
   }
 

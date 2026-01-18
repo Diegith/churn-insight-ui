@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080', // Cambia esto si tu Spring Boot usa otro puerto
+  baseURL: 'http://localhost:8080', 
 });
 
-// Interceptor para pegar el token en cada llamada
+
 api.interceptors.request.use((config) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   if (userData && userData.token) {

@@ -9,7 +9,7 @@ const BatchPredictor = () => {
   
   // NUEVO: Estado para los campos del formulario
   const [formData, setFormData] = useState({
-    modeloId: 1, // Valor por defecto
+    idModelo: 1, // Valor por defecto
     descripcion: ''
   });
 
@@ -36,9 +36,9 @@ const BatchPredictor = () => {
     setLoading(true);
     const payloadData = new FormData();
     
-    // 1. Construimos el JSON con los datos capturados en el form
     const requestJson = {
-      modeloId: parseInt(formData.modeloId), // Asegurar que sea número
+      idModelo: parseInt(formData.idModelo), 
+      idUsuario: 1, 
       descripcion: formData.descripcion
     };
 
@@ -94,8 +94,8 @@ const BatchPredictor = () => {
                 <Bot size={16} className="text-blue-500"/> Seleccionar Modelo
               </label>
               <select
-                name="modeloId"
-                value={formData.modeloId}
+                name="idModelo"
+                value={formData.idModelo}
                 onChange={handleInputChange}
                 className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all"
               >

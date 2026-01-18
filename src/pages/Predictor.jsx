@@ -11,9 +11,9 @@ import {
 
 const Predictor = () => {
   const [formData, setFormData] = useState({
-    modeloId: 1,
+    idModelo: 1,
     descripcion: '',
-    // Campos del modelo (PascalCase como lo requiere el backend/ML)
+    // Campos del modelo
     CreditScore: 650,
     Geography: 'France',
     Gender: 'Male',
@@ -31,19 +31,18 @@ const Predictor = () => {
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
-    // Conversión estricta de tipos numéricos
-    const val = type === 'number' || name === 'modeloId' ? parseFloat(value) : value;
+    const val = type === 'number' || name === 'idModelo' ? parseFloat(value) : value;
     setFormData({ ...formData, [name]: val });
   };
 
+  // --- SECCIÓN MODIFICADA: handleSubmit ---
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setResult(null);
 
-    // Payload formateado para el Backend Java
     const payload = {
-      modeloId: formData.modeloId,
+      idModelo: formData.idModelo,
       descripcion: formData.descripcion || `Consulta individual ${new Date().toLocaleTimeString()}`,
       requestJson: {
         CreditScore: formData.CreditScore,
@@ -61,29 +60,31 @@ const Predictor = () => {
 
     try {
       const response = await api.post('/api/predicciones/individual', payload);
-      const data = response.data;
-      console.log("Datos recibidos del backend:", data);
-      console.log("Respuesta del backend:", data.prediccion_id);
-      let mlResult = { prediction: "Desconocido", probability: 0, confidence: "N/A", top_features: [] };
+      const data = response.data; // El JSON limpio que me mostraste
+      
+      console.log("Respuesta limpia del backend:", data);
 
-      // LÓGICA DE PARSEO ROBUSTA
-      // Verificamos si resultadoJson existe (Java suele enviarlo como camelCase 'resultadoJson')
-      const jsonString = data.resultadoJson || data.resultado_json;
-
-      if (jsonString) {
-        try {
-          // Si ya es objeto, úsalo. Si es string, paréalo.
-          mlResult = (typeof jsonString === 'string') ? JSON.parse(jsonString) : jsonString;
-        } catch (err) {
-          console.error("Error parseando el JSON interno de ML:", err);
-        }
-      } else {
-        console.warn("El backend no devolvió el campo resultadoJson");
-      }
+      // --- LÓGICA SIMPLIFICADA ---
+      // Ya no necesitamos JSON.parse ni try/catch complejos.
+      // El backend nos devuelve la estructura exacta que necesitamos.
+      
+      // Creamos un fallback seguro por si 'resultado' viene nulo por algún error
+      const analysisData = data.resultado || { 
+          prediction: "Desconocido", 
+          probability: 0, 
+          confidence: "N/A", 
+          top_features: [] 
+      };
 
       setResult({
-        meta: data,      // Metadatos (ID, fechas, etc.)
-        analysis: mlResult // Resultado puro del ML (prediction, probability, features)
+        // Mapeamos los metadatos de la raíz del JSON
+        meta: {
+            id: data.idSolicitud, // CAMBIO: Antes era prediccion_id
+            estado: data.estado,
+            fechaRespuesta: data.fechaRespuesta // CAMBIO: camelCase
+        },
+        // Mapeamos el objeto 'resultado' directo al análisis
+        analysis: analysisData
       });
 
     } catch (error) {
@@ -110,7 +111,7 @@ const Predictor = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* --- COLUMNA IZQUIERDA: FORMULARIO --- */}
+        {/* --- COLUMNA IZQUIERDA: FORMULARIO (Sin Cambios) --- */}
         <form onSubmit={handleSubmit} className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-5">
           
           <div className="md:col-span-2">
@@ -247,7 +248,6 @@ const Predictor = () => {
                 {/* 1. Icono y Veredicto */}
                 <div className="flex flex-col items-center">
                   <div className={`w-24 h-24 rounded-full flex items-center justify-center shadow-2xl mb-4 transition-colors duration-500 ${
-                      // LÓGICA DE COLOR: Verde si "Va a continuar", Rojo para cualquier otra cosa
                       result.analysis.prediction === 'Va a continuar'
                         ? 'bg-emerald-500 shadow-emerald-500/40 ring-4 ring-emerald-500/20'
                         : 'bg-rose-500 shadow-rose-500/40 ring-4 ring-rose-500/20' 
@@ -318,9 +318,10 @@ const Predictor = () => {
                   </div>
                 )}
 
-                {/* 4. Auditoría */}
+                {/* 4. Auditoría (SECCIÓN MODIFICADA EN JSX) */}
                 <div className="text-[10px] text-slate-500 font-mono text-center pt-2">
-                  ID Transacción: #{result.meta.prediccion_id} • {result.meta.fecha_respuesta ? new Date(result.meta.fecha_respuesta).toLocaleTimeString() : 'Ahora'}
+                  {/* Usamos idSolicitud y fechaRespuesta (camelCase) */}
+                  ID Transacción: #{result.meta.id} • {result.meta.fechaRespuesta ? new Date(result.meta.fechaRespuesta).toLocaleTimeString() : 'Ahora'}
                 </div>
 
               </div>
