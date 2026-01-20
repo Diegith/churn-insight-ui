@@ -5,6 +5,8 @@ import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
 import Predictor from './pages/Predictor';
 import BatchPredictor from './pages/BatchPredictor';
+import HistoryView from './pages/HistoryView';
+
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
         <Route path="/" element={<Layout><Dashboard /></Layout>} />
         <Route path="/predict" element={<Layout><Predictor /></Layout>} />
         <Route path="/batch" element={<Layout><BatchPredictor /></Layout>} />
+        <Route path="/history" element={<Layout><HistoryView /></Layout>} />
         {/* Aquí puedes añadir la ruta del predictor después */}
       </Route>
 
