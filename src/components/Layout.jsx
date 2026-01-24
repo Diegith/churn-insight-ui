@@ -61,7 +61,14 @@ const Layout = ({ children }) => {
           >
             {/* 4. USAMOS EL ALIAS AQUÍ */}
             <HistoryIcon size={20} />
-            <span>Historial</span>
+            <span>Historial - Predicciones individuales</span>
+          </Link>
+          <Link 
+            to="/batch-history" 
+            className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 group ${activeClass('/batch-history')}`}
+          >
+            <FileSpreadsheet size={20} />
+            <span className="font-medium">Historial Cargas</span>
           </Link>
         </nav>
 
