@@ -100,8 +100,8 @@ const BatchPredictor = () => {
                 className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all"
               >
                 {/* Aquí podrías mapear modelos desde una API */}
-                <option value="1">Churn XGBoost v1 (Default)</option>
-                <option value="2">Random Forest Experimental</option>
+                <option value="1">Random Forest Experimental (Default)</option>
+                <option value="2">Churn XGBoost v1</option>
               </select>
             </div>
 
