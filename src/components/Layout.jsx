@@ -76,7 +76,7 @@ const Layout = ({ children }) => {
             className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 group ${activeClass('/resultados')}`}
           >
             <Activity size={20} />
-            <span className="font-medium">Resultados predicciones batch</span>
+            <span className="font-medium">Resultados predicciones</span>
           </Link>
         </nav>
 
