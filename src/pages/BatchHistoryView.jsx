@@ -30,7 +30,7 @@ const BatchHistoryView = () => {
     setLoading(true);
     try {
       // Asumiendo que tu controller está en /api/predicciones
-      const response = await api.get(`/api/predicciones/batch?page=${pageNumber}&size=10&sort=fechaSolicitud,desc`);
+      const response = await api.get(`/api/predicciones/resultados?page=${pageNumber}&size=10&sort=fechaSolicitud,desc`);
       const data = response.data;
 
       setBatches(data.content);

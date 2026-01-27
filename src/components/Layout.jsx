@@ -6,7 +6,8 @@ import {
   LogOut, 
   Zap, 
   FileSpreadsheet, 
-  History as HistoryIcon 
+  History as HistoryIcon,
+  Activity
 } from 'lucide-react';
 
 const Layout = ({ children }) => {
@@ -69,6 +70,13 @@ const Layout = ({ children }) => {
           >
             <FileSpreadsheet size={20} />
             <span className="font-medium">Historial Cargas</span>
+          </Link>
+          <Link 
+            to="/resultados" 
+            className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 group ${activeClass('/resultados')}`}
+          >
+            <Activity size={20} />
+            <span className="font-medium">Resultados predicciones batch</span>
           </Link>
         </nav>
 

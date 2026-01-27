@@ -7,6 +7,7 @@ import Predictor from './pages/Predictor';
 import BatchPredictor from './pages/BatchPredictor';
 import HistoryView from './pages/HistoryView';
 import BatchHistoryView from './pages/BatchHistoryView';
+import ResultsView from './pages/ResultsView';
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
         <Route path="/batch" element={<Layout><BatchPredictor /></Layout>} />
         <Route path="/history" element={<Layout><HistoryView /></Layout>} />
         <Route path="/batch-history" element={<Layout><BatchHistoryView /></Layout>} />
-        {/* Aquí puedes añadir la ruta del predictor después */}
+        <Route path="/resultados" element={<Layout><ResultsView /></Layout>}  />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
